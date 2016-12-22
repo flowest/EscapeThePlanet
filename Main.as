@@ -2,54 +2,38 @@
 
 	import flash.display.MovieClip;
 	import flash.events.Event;
-	
-	import scripts.KeyInputHandler;
-	import scripts.Astronaut;
-
 
 	public class Main extends MovieClip {
-
-		public var gameState: String = "home";
 		
 
 		public function Main() {
 			stop();
-			addButtonEventListeners();
+			addButtonEventListeners();			
 		}
 		
-		private function addButtonEventListeners(): void {
-			instructionsButton.addEventListener("click", gotoInstructions);
-			homeButton.addEventListener("click", gotoHomeScreen);
-			highscoreButton.addEventListener("click", gotoHighscore);
-			startGameButton.addEventListener("click", startGame);
+		private function addButtonEventListeners(){
+			instructionsButton.addEventListener("click",instructionsButtonClickedHander);
+			highscoreButton.addEventListener("click",highscoreButtonClickedHander);
+			backButton.addEventListener("click",backButtonClickedHander);
+			startGameButton.addEventListener("click",startGameButtonClickedHander);
 		}
-
-		private function gotoInstructions(event: Event) {
-			this.gameState = "instructions";
+		
+		private function instructionsButtonClickedHander(_event:Event){
 			gotoAndStop("instructions");
 		}
-
-		private function gotoHomeScreen(event: Event) {
-			this.gameState = "home";
+		
+		private function highscoreButtonClickedHander(_event:Event){
+			gotoAndStop("highscore");
+		}
+		
+		private function backButtonClickedHander(_event:Event){
 			gotoAndStop("home");
 			addButtonEventListeners();
 		}
-
-		private function gotoHighscore(event: Event) {
-			this.gameState = "highscore";
-			gotoAndStop("highscore");
-		}
-
-		private function startGame(event: Event) {
-			this.gameState = "gameStart";
+		
+		private function startGameButtonClickedHander(_event:Event){
 			gotoAndStop("gameStart");
-			setUpGame();
 		}
 		
-		private function setUpGame(){
-			//var astronaut = new Astronaut(stage,360,240);
-			//stage.addChild(astronaut);
-		}
 	}
-
 }
