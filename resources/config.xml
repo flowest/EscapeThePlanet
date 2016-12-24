@@ -3,4 +3,7 @@
 		<WalkSpeed>3</WalkSpeed>
 		<JumpHeight>13</JumpHeight>
 	</Astronaut>
+	<Robot>
+		<WalkSpeed>3</WalkSpeed>
+	</Robot>
 </GameplaySettings>

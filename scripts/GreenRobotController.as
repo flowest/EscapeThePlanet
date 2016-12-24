@@ -17,12 +17,13 @@
 			super(this);
 			physicsController = new Physics(MovieClip(this), MovieClip(this.parent));
 
-			addEventListener("robotSpawnedEvent", robotSpawnedHandler)
+			addEventListener("greenRobotSpawnedEvent", robotSpawnedHandler)
 		}
 
 		private function update(_event: Event) {
 			physicsController.doPhyics();
 			moveRobot(isWalking);
+			checkForCollisionWithAstronaut();
 		}
 
 		private function robotSpawnedHandler(_event: Event) {
@@ -39,6 +40,12 @@
 			} else {
 				isWalking = false;
 				animationController.doRobotAnimation("Idle");
+			}
+		}
+		
+		private function checkForCollisionWithAstronaut(){
+			if(this.hitTestObject(Main.instance.AstronautOnStage)){
+				trace("Green Robot hit Astronaut");
 			}
 		}
 	}

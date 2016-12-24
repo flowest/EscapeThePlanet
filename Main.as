@@ -61,5 +61,9 @@
 		public function getAstronautConfigData():XMLList{
 			return configXML.Astronaut;
 		}
+		
+		public function getRobotConfigData():XMLList{
+			return configXML.Robot;
+		}
 	}
 }
