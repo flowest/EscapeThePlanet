@@ -7,15 +7,21 @@
 	public class RobotMovementController extends MovieClip {
 
 		private var robotToDoMovementOn: MovieClip;
+		private var physicsController: Physics;
+		private var animationController: AnimationController;
 
 		private var walkSpeed: Number;
+		private var jumpHeight;
+
 		private var direction = 1;
+		public var isOnGround: Boolean = false;
+		private var isWalking: Boolean = false;
 
 		private var rightBound = stage.stageWidth - 100;
 		private var leftBound = 100;
 
 		private var timerToChangeDirectionRandomly: Timer = new Timer(3000, 0);
-		
+
 		public function RobotMovementController(robot: MovieClip) {
 			loadConfigData();
 			this.robotToDoMovementOn = robot;
@@ -28,9 +34,26 @@
 			var configData: XMLList = Main.instance.getRobotConfigData();
 
 			this.walkSpeed = configData.WalkSpeed;
+			this.jumpHeight = configData.JumpHeight;
 		}
 
-		public function moveRobot(_isWalking: Boolean) {
+		public function getIsWalking(): Boolean {
+			return this.isWalking;
+		}
+
+		public function setIsWalking(_value: Boolean): void {
+			this.isWalking = _value;
+		}
+
+		public function setPhysicsController(_controller: Physics) {
+			physicsController = _controller;
+		}
+
+		public function setAnimationController(_controller: AnimationController) {
+			animationController = _controller;
+		}
+
+		private function moveRobot(_isWalking: Boolean) {
 
 			if (_isWalking) {
 
@@ -68,6 +91,29 @@
 			}
 		}
 
+		public function initRobot(_event: Event) {
+			addEventListener(Event.ENTER_FRAME, update);
+		}
+
+		private function update(_event: Event) {
+			physicsController.doPhyics();
+			moveRobot(isWalking);
+			checkForCollisionWithAstronaut();
+		}
+
+		private function checkForCollisionWithAstronaut() {
+			if (this.hitTestObject(Main.instance.AstronautOnStage)) {
+				trace("Green Robot hit Astronaut");
+			}
+		}
+
+		public function sendAnimationToAnimationController(animation: String) {
+			animationController.doRobotAnimation(animation);
+		}
+
+		public function triggerJumpOnPhysicsController() {
+			physicsController.triggerJump(jumpHeight);
+		}
 	}
 
 }

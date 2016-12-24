@@ -4,11 +4,10 @@
 	import scripts.Physics;
 	import flash.events.Event;
 
-	public class GreenRobotController extends RobotMovementController {
-
-		public function GreenRobotController() {
+	public class YellowRobotController extends RobotMovementController {
+		public function YellowRobotController() {
 			super(this);
-			addEventListener("greenRobotSpawnedEvent", robotSpawnedHandler)
+			addEventListener("yellowRobotSpawnedEvent", robotSpawnedHandler)
 		}
 
 		private function robotSpawnedHandler(_event: Event) {
@@ -23,11 +22,13 @@
 			if (randomNumber <= 70) {
 				super.setIsWalking(true);
 				super.sendAnimationToAnimationController("Walk");
+				super.triggerJumpOnPhysicsController();
 			} else {
 				super.setIsWalking(false);
 				super.sendAnimationToAnimationController("Idle");
 			}
 		}
+
 	}
 
 }
