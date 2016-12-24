@@ -1,0 +1,6 @@
+<GameplaySettings>
+	<Astronaut>
+		<WalkSpeed>3</WalkSpeed>
+		<JumpHeight>13</JumpHeight>
+	</Astronaut>
+</GameplaySettings>

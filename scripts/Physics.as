@@ -2,15 +2,15 @@
 	import flash.display.MovieClip;
 	import flash.geom.Point;
 
-	public class Physics {
+	public class Physics{
 
-		var objectToDoPhysicsOn: MovieClip;
-		var levelToDoPhysicsOn: MovieClip;
+		private var objectToDoPhysicsOn: MovieClip;
+		private var levelToDoPhysicsOn: MovieClip;
 		
-		var fallSpeedLimit = 25;
+		private var fallSpeedLimit = 10;
 
-		var deltaY: Number = 1;
-		var gravity: Number = 1;
+		private var deltaY: Number = 1;
+		private var gravity: Number = 1;
 
 		public function Physics(_objectToDoPhysicsOn: MovieClip, _levelToDoPhysicsOn: MovieClip) {
 			this.objectToDoPhysicsOn = _objectToDoPhysicsOn;
@@ -28,7 +28,7 @@
 				var currentElementInLevel = levelToDoPhysicsOn.getChildAt(i);
 
 				while (currentElementInLevel.hitTestPoint(objectToDoPhysicsOn.localToGlobal(new Point()).x, objectToDoPhysicsOn.localToGlobal(new Point()).y, true) && (currentElementInLevel is Platform || currentElementInLevel is Floor)) {
-					objectToDoPhysicsOn.y -= 0.5;
+					objectToDoPhysicsOn.y -= 1;
 					deltaY = 0;
 					objectToDoPhysicsOn.isOnGround = true;
 				}
