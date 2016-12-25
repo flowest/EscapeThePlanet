@@ -21,6 +21,9 @@
 		private var leftBound = 100;
 
 		private var timerToChangeDirectionRandomly: Timer = new Timer(3000, 0);
+		private var timerIsAbleToDoDamage: Timer = new Timer(1000, 0);
+
+		private var isAbleToDoDamage: Boolean = true;
 
 		public function RobotMovementController(robot: MovieClip) {
 			loadConfigData();
@@ -28,6 +31,8 @@
 
 			timerToChangeDirectionRandomly.addEventListener("timer", timerElapsedHandler);
 			timerToChangeDirectionRandomly.start();
+
+			timerIsAbleToDoDamage.addEventListener("timer", damageTimerElapsed);
 		}
 
 		private function loadConfigData() {
@@ -103,8 +108,19 @@
 
 		private function checkForCollisionWithAstronaut() {
 			if (this.hitTestObject(Main.instance.AstronautOnStage)) {
-				trace("Green Robot hit Astronaut");
+
+
+				if (isAbleToDoDamage) {
+					isAbleToDoDamage = false;
+					Main.instance.robotHitAstronaut();
+					timerIsAbleToDoDamage.start();
+				}
 			}
+		}
+
+		private function damageTimerElapsed(_event: Event) {
+			isAbleToDoDamage = true;
+			timerIsAbleToDoDamage.stop();
 		}
 
 		public function sendAnimationToAnimationController(animation: String) {

@@ -11,14 +11,14 @@
 		public static function get instance(): Main {
 			return _instance;
 		}
-		
-		private var configXML:XML;
+
+		private var configXML: XML;
 
 		public function Main() {
 			_instance = this;
-			
+
 			stop();
-			
+
 			loadConfigData();
 			addButtonEventListeners();
 		}
@@ -29,14 +29,14 @@
 			backButton.addEventListener("click", backButtonClickedHander);
 			startGameButton.addEventListener("click", startGameButtonClickedHander);
 		}
-		
-		private function loadConfigData(){
-			var fileLoader:URLLoader = new URLLoader();
+
+		private function loadConfigData() {
+			var fileLoader: URLLoader = new URLLoader();
 			fileLoader.load(new URLRequest("resources/config.xml"));
-			fileLoader.addEventListener(Event.COMPLETE,processXMLData);
+			fileLoader.addEventListener(Event.COMPLETE, processXMLData);
 		}
-		
-		private function processXMLData(_event:Event){
+
+		private function processXMLData(_event: Event) {
 			configXML = new XML(_event.target.data);
 		}
 
@@ -56,13 +56,20 @@
 		private function startGameButtonClickedHander(_event: Event) {
 			gotoAndStop("gameStart");
 		}
-		
-		
-		public function getAstronautConfigData():XMLList{
+
+		public function robotHitAstronaut() {
+			trace("Robot hit Astronaut");
+		}
+
+		public function blackHoleCaughtAstronaut() {
+			trace("caught by blackwhole");
+		}
+
+		public function getAstronautConfigData(): XMLList {
 			return configXML.Astronaut;
 		}
-		
-		public function getRobotConfigData():XMLList{
+
+		public function getRobotConfigData(): XMLList {
 			return configXML.Robot;
 		}
 	}
