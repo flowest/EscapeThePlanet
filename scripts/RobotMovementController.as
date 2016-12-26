@@ -4,7 +4,7 @@
 	import flash.utils.Timer;
 	import flash.events.Event;
 
-	public class RobotMovementController extends MovieClip {
+	public class RobotMovementController extends ApplyDamageController {
 
 		private var robotToDoMovementOn: MovieClip;
 		private var physicsController: Physics;
@@ -21,18 +21,14 @@
 		private var leftBound = 100;
 
 		private var timerToChangeDirectionRandomly: Timer = new Timer(3000, 0);
-		private var timerIsAbleToDoDamage: Timer = new Timer(1000, 0);
-
-		private var isAbleToDoDamage: Boolean = true;
 
 		public function RobotMovementController(robot: MovieClip) {
+			super();
 			loadConfigData();
 			this.robotToDoMovementOn = robot;
 
 			timerToChangeDirectionRandomly.addEventListener("timer", timerElapsedHandler);
 			timerToChangeDirectionRandomly.start();
-
-			timerIsAbleToDoDamage.addEventListener("timer", damageTimerElapsed);
 		}
 
 		private function loadConfigData() {
@@ -109,20 +105,15 @@
 		private function checkForCollisionWithAstronaut() {
 			if (this.hitTestObject(Main.instance.AstronautOnStage)) {
 
-
-				if (isAbleToDoDamage) {
-					isAbleToDoDamage = false;
+				if (super.isAbleToDoDamage) {
+					super.isAbleToDoDamage = false;
 					Main.instance.robotHitAstronaut();
-					timerIsAbleToDoDamage.start();
+					super.timerIsAbleToDoDamage.start();
 				}
 			}
 		}
 
-		private function damageTimerElapsed(_event: Event) {
-			isAbleToDoDamage = true;
-			timerIsAbleToDoDamage.stop();
-		}
-
+		
 		public function sendAnimationToAnimationController(animation: String) {
 			animationController.doRobotAnimation(animation);
 		}

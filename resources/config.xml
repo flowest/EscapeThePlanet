@@ -7,4 +7,7 @@
 		<WalkSpeed>3</WalkSpeed>
 		<JumpHeight>13</JumpHeight>
 	</Robot>
+	<Meteroid>
+		<MeteroidSpeed>3</MeteroidSpeed>
+	</Meteroid>
 </GameplaySettings>
