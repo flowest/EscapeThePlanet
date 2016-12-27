@@ -121,6 +121,11 @@
 		public function triggerJumpOnPhysicsController() {
 			physicsController.triggerJump(jumpHeight);
 		}
+		
+		public function removeEventListeners(){
+			timerToChangeDirectionRandomly.removeEventListener("timer", timerElapsedHandler);
+			removeEventListener(Event.ENTER_FRAME, update);
+		}
 	}
 
 }

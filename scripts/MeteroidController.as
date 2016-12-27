@@ -28,14 +28,12 @@
 			this.meteroidSpeed = configData.MeteroidSpeed;
 		}
 
-		function update(event: Event) {
+		private function update(event: Event) {
 			this.rotation += rotationSpeed;
 			this.x += meteroidSpeed * moveDirection;
 
 			if (this.localToGlobal(new Point()).x < -removeOffset || this.localToGlobal(new Point()).x > stage.stageWidth + removeOffset) {
-				this.removeEventListener(Event.ENTER_FRAME, update);
-				trace("removed meteroid");
-				this.parent.removeChild(this);
+				removeFromStage();
 			}
 
 			if (this.hitTestObject(Main.instance.AstronautOnStage)) {
@@ -47,6 +45,10 @@
 			}
 		}
 
+		public function removeFromStage() {
+			this.removeEventListener(Event.ENTER_FRAME, update);
+			this.parent.removeChild(this);
+		}
 	}
 
 }

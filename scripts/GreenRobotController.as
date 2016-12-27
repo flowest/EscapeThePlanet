@@ -8,7 +8,7 @@
 
 		public function GreenRobotController() {
 			super(this);
-			addEventListener("greenRobotSpawnedEvent", robotSpawnedHandler)
+			addEventListener("greenRobotSpawnedEvent", robotSpawnedHandler);
 		}
 
 		private function robotSpawnedHandler(_event: Event) {
@@ -27,6 +27,12 @@
 				super.setIsWalking(false);
 				super.sendAnimationToAnimationController("Idle");
 			}
+		}
+		
+		public function removeFromStage(){
+			super.removeEventListeners();
+			removeEventListener("greenRobotSpawnedEvent", robotSpawnedHandler);
+			this.parent.removeChild(this);
 		}
 	}
 

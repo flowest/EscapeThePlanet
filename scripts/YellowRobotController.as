@@ -29,6 +29,12 @@
 			}
 		}
 
+		public function removeFromStage() {
+			super.removeEventListeners();
+			removeEventListener("yellowRobotSpawnedEvent", robotSpawnedHandler);
+			this.parent.removeChild(this);
+		}
+
 	}
 
 }

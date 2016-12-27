@@ -6,6 +6,8 @@
 	import flash.net.URLRequest;
 	import flash.system.fscommand;
 	import flash.utils.Timer;
+	import flash.utils.getQualifiedClassName;
+	import flash.media.Sound;
 
 	public class Main extends MovieClip {
 
@@ -22,7 +24,14 @@
 		private var initialAstronautOxygen: Number;
 		private var currentAstronautOxygen: Number;
 
+		public var collectedPointsForLeaderboard: Number = 0;
+
 		private var timerDecreaseOxygen: Timer = new Timer(300, 0);
+
+
+		private var collectRockSampleSound = new sound_collect_rock_sample();
+		private var collectOxygenBottleSound = new sound_collect_oxygen_bottle();
+		private var takeDamageSound = new sound_take_damage();
 
 		public function Main() {
 			_instance = this;
@@ -30,7 +39,6 @@
 			stop();
 
 			loadConfigData();
-			timerDecreaseOxygen.addEventListener("timer", decreaseOxygen);
 		}
 
 		private function loadConfigData() {
@@ -58,17 +66,32 @@
 			applyDamageToAstronaut();
 		}
 
+		public function reachedRocket() {
+			trace("Astronaut reached Rocket");
+			clearLevel();
+			gotoAndStop("finish");
+		}
+
 		public function collectedRockSample() {
+			collectRockSampleSound.play();
+
 			var currentPoints: Number = Number(collectedPoints.text);
 			var newPoints: Number = currentPoints + 10;
 			collectedPoints.text = String(newPoints);
+			collectedPointsForLeaderboard = newPoints;
 		}
-		
-		public function collectedOxygenBottle(){
-			if(this.currentAstronautOxygen < 300){
+
+		public function collectedOxygenBottle() {
+			collectOxygenBottleSound.play();
+			
+			if (this.currentAstronautOxygen < 300) {
 				this.currentAstronautOxygen += 30;
 				this.oxygenBar.width = currentAstronautOxygen;
 			}
+		}
+
+		public function setDecreaseOxygenTimer() {
+			timerDecreaseOxygen.addEventListener("timer", decreaseOxygen);
 		}
 
 		public function setAstronautHealth(_health: Number) {
@@ -98,6 +121,7 @@
 		}
 
 		private function applyDamageToAstronaut() {
+			takeDamageSound.play();
 			this.currentAstronautHealth -= this.initialAstronautHealth / 10;
 			this.healthBar.width = this.currentAstronautHealth;
 
@@ -116,7 +140,24 @@
 		}
 
 		private function gameOver() {
+			clearLevel();
 			gotoAndStop("gameOver");
+		}
+
+		private function clearLevel() {
+
+			for (var i: Number = this.Level.numChildren - 1; i > 0; i--) {
+				var currentElement = this.Level.getChildAt(i);
+				var currentElementType: String = getQualifiedClassName(currentElement);
+
+				if ((currentElement is Platform) == false) {
+					currentElement.removeFromStage();
+				}
+			}
+			this.Level.removeFromStage();
+			this.AstronautOnStage.removeFromStage();
+
+			timerDecreaseOxygen.removeEventListener("timer", decreaseOxygen);
 		}
 	}
 }
