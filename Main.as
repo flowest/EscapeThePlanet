@@ -8,6 +8,7 @@
 	import flash.utils.Timer;
 	import flash.utils.getQualifiedClassName;
 	import flash.media.Sound;
+	import flash.media.SoundChannel;
 
 	public class Main extends MovieClip {
 
@@ -32,6 +33,8 @@
 		private var collectRockSampleSound = new sound_collect_rock_sample();
 		private var collectOxygenBottleSound = new sound_collect_oxygen_bottle();
 		private var takeDamageSound = new sound_take_damage();
+		private var soundtrack = new space_soundtrack();
+		private var soundtrackSoundChannel = new SoundChannel();
 
 		public function Main() {
 			_instance = this;
@@ -39,6 +42,7 @@
 			stop();
 
 			loadConfigData();
+			playSoundtrack();
 		}
 
 		private function loadConfigData() {
@@ -49,6 +53,16 @@
 
 		private function processXMLData(_event: Event) {
 			configXML = new XML(_event.target.data);
+		}
+		
+		private function playSoundtrack(){
+			soundtrackSoundChannel = soundtrack.play();
+			soundtrackSoundChannel.addEventListener(Event.SOUND_COMPLETE, replaySoundtrack);
+		}
+		
+		private function replaySoundtrack(_event:Event){
+			_event.currentTarget.removeEventListener(Event.SOUND_COMPLETE, replaySoundtrack);
+			playSoundtrack();
 		}
 
 		public function robotHitAstronaut() {
